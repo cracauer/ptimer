@@ -19,7 +19,7 @@ function test_one_signal () {
   local sig="$1"
   echo pid $$ testing signal $sig
   [ -f test-ptimer.report ] && rm test-ptimer.report
-  ./ptimer test-ptimer.report sh -c 'sleep 0.25; kill -'$sig' $$; exit 42' || true
+  ./ptimer -o test-ptimer.report sh -c 'sleep 0.25; kill -'$sig' $$; exit 42' || true
   [ -f test-ptimer.report ] || sleep 1
   [ -f test-ptimer.report ] || sleep 2
   [ -f test-ptimer.report ] || sleep 3
@@ -35,7 +35,7 @@ function test_one_signal () {
 function test_regular () {
   # no signal
   echo testing no.signal:
-  ./ptimer test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true
+  ./ptimer -o test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true
   if ! egrep -q '^0\.[4567].*full seconds real time' test-ptimer.report ; then
     error Wrong runtime
   fi

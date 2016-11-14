@@ -39,8 +39,8 @@
 
 void usage(FILE *const f, int exitcode) {
     fprintf(f, "Usage: ");
-    fprintf(f, "exiter reportfile unixcommand [argcs_for_unixcommand]\n");
-    fprintf(f, "(mostly like GNU time, but report file is mandatory)\n");
+    fprintf(f, "exiter -o reportfile unixcommand [args_for_unixcommand]\n");
+    fprintf(f, "(mostly like GNU time, but report file is mandatory for now)\n");
     exit(exitcode);
 }
 
@@ -65,9 +65,13 @@ int main(int argc, char *argv[]) {
     if (argc == 1) {
         usage(stdout, 0);
     }
-    if (argc < 3) {
+    if (argc < 4) {
         usage(stderr, 1);
     }
+    if (strcmp(argv[1], "-o")) {
+        usage(stderr, 1);
+    }
+    argv++; argc--;
 
     // Signals that might be sent to the progress
     // group, e.g. by an interactive shell.
