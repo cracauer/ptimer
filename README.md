@@ -15,5 +15,7 @@ Use it like time(1).  Commandline option syntax will be kept
 compatible with time(1) within reason.  Right now the only option
 supported and mandatory for now is "-o".  If you need to append you
 can use /dev/stderr or /dev/fd/<n> and shell syntax like this:
+```
     `ptimer -o /dev/fd/5 foo [...shellcode using fd1 and fd2] 5>&1 | bar`
     `ptimer -o /dev/fd/5 foo [...shellcode using fd1 and fd2] >> timefile 5>&1`
+```
