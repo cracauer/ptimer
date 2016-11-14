@@ -5,7 +5,7 @@ set -b
 
 # set -x
 
-function error () {
+error () {
   printf "ERROR: '%s'\n" "$*" 1>&2
   echo last test-ptimer.report: 1>&2
   cat  test-ptimer.report 1>&2
@@ -14,7 +14,7 @@ function error () {
   exit 2
 }
 
-function test_one_signal () {
+test_one_signal () {
   # pass in signal number without the "-"
   local sig="$1"
   echo pid $$ testing signal $sig
@@ -32,7 +32,7 @@ function test_one_signal () {
   fi
 }
 
-function test_regular () {
+test_regular () {
   # no signal
   echo testing no.signal:
   ./ptimer -o test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true

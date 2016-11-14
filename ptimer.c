@@ -1,7 +1,6 @@
 // Copyright Martin Cracauer 1997-2016
 // Open Sorce under MIT license.
 // Google IARC approved September 20 2016.
-// Waiting for round-trip through github.
 
 // A C program that you wrap around a binary.
 //
@@ -15,13 +14,8 @@
 // - giving it a file to write the stats to is a mandatory
 //   first argument
 //
-// Please do not use this outside this test directory without
-// talking to cracauer@ about how to make it a proper g3
-// program.  Right now usage is limited to and ensured and
-// tested (test-exiter.sh) here.
-//
 // Usage:
-// ./thisprogram statfile_to_write wc /etc/hosts
+// ./thisprogram -o statfile_to_write wc /etc/hosts
 // [normal output, full transparency like time(1)]
 // # statfile_to_write has:
 // 0.00155711 full seconds real time
@@ -36,6 +30,7 @@
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 void usage(FILE *const f, int exitcode) {
     fprintf(f, "Usage: ");
