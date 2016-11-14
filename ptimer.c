@@ -90,6 +90,12 @@ int main(int argc, char *argv[]) {
     output_filename = argv[1]; argv++; argc--;
     executable = argv[1]; argv++; argc--;
 
+    FILE *out = fopen(output_filename, "w");
+    if (out == NULL) {
+        perror("fopen w");
+        exit(2);
+    }
+
     struct rusage before;
     if (getrusage(RUSAGE_CHILDREN, &before) == -1) {
         perror("getrusage1");
@@ -133,11 +139,6 @@ int main(int argc, char *argv[]) {
     }
     double time_after = time1.tv_sec +
         (double)(time1.tv_usec) / 1000.0 / 1000.0;
-    FILE *out = fopen(output_filename, "w");
-    if (out == NULL) {
-        perror("fopen w");
-        exit(2);
-    }
     fprintf(out, "%g full seconds real time\n", time_after - time_before);
     fprintf(out, "%ld microseconds real time\n", (int64_t)
             ((time_after - time_before) * 1000 * 1000));
