@@ -24,7 +24,7 @@ test_one_signal () {
   [ -f test-ptimer.report ] || sleep 2
   [ -f test-ptimer.report ] || sleep 3
   cat test-ptimer.report # would then exit test with failure if it exists
-  if ! egrep -q '^0\.[1234].*full seconds real time' test-ptimer.report ; then
+  if ! egrep -q '^0\.[1234][^ ]* 1x seconds real_time' test-ptimer.report ; then
     error Wrong runtime
   fi
   if ! grep -q "^$sig command terminated by signal" test-ptimer.report ; then
@@ -36,7 +36,7 @@ test_regular () {
   # no signal
   echo testing no.signal:
   ./ptimer -o test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true
-  if ! egrep -q '^0\.[4567].*full seconds real time' test-ptimer.report ; then
+  if ! egrep -q '^0\.[4567][^ ]* 1x seconds real_time' test-ptimer.report ; then
     error Wrong runtime
   fi
   if grep -q "command terminated by signal" test-ptimer.report ; then
