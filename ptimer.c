@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
     double time_after = time1.tv_sec +
         (double)(time1.tv_usec) / 1000.0 / 1000.0;
     fprintf(out, "%g full seconds real time\n", time_after - time_before);
-    fprintf(out, "%ld microseconds real time\n", (int64_t)
+    fprintf(out, "%lld microseconds real time\n", (long long)
             ((time_after - time_before) * 1000 * 1000));
 
     int use_exit_status = 0;
