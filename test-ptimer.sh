@@ -1,5 +1,17 @@
 #! /bin/sh
 
+if ! which ptimer > /dev/null 2> /dev/null ; then
+  if [ -x ./ptimer ] ; then
+    bin=./ptimer
+  else
+    echo I think you need to build ptimer 1>&2
+    exit 3
+  fi
+else
+  bin=`which ptimer`
+fi
+
+
 set -u
 set -b
 
@@ -19,7 +31,7 @@ test_one_signal () {
   local sig="$1"
   echo pid $$ testing signal $sig
   [ -f test-ptimer.report ] && rm test-ptimer.report
-  ./ptimer -o test-ptimer.report sh -c 'sleep 0.25; kill -'$sig' $$; exit 42' || true
+  $bin -o test-ptimer.report sh -c 'sleep 0.25; kill -'$sig' $$; exit 42' || true
   [ -f test-ptimer.report ] || sleep 1
   [ -f test-ptimer.report ] || sleep 2
   [ -f test-ptimer.report ] || sleep 3
@@ -35,7 +47,7 @@ test_one_signal () {
 test_regular () {
   # no signal
   echo testing no.signal:
-  ./ptimer -o test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true
+  $bin -o test-ptimer.report sh -c 'sleep 0.52 ; exit 42' || true
   if ! egrep -q '^0\.[4567][^ ]* 1x seconds real_time' test-ptimer.report ; then
     error Wrong runtime
   fi
@@ -46,11 +58,6 @@ test_regular () {
     error exit code not correct
   fi
 }
-
-if ! [ -x ptimer ] ; then
-  echo I think you need to build ./ptimer 1>&2
-  exit 3
-fi
 
 test_one_signal 15
 test_one_signal 9
